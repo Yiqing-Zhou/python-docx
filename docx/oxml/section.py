@@ -7,7 +7,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from copy import deepcopy
 
 from docx.enum.section import WD_HEADER_FOOTER, WD_ORIENTATION, WD_SECTION_START
-from docx.oxml.simpletypes import ST_SignedTwipsMeasure, ST_TwipsMeasure, XsdString
+from docx.oxml.simpletypes import (
+    ST_SignedTwipsMeasure, ST_TwipsMeasure, XsdString, ST_DecimalNumber)
 from docx.oxml.xmlchemy import (
     BaseOxmlElement,
     OptionalAttribute,
@@ -55,6 +56,13 @@ class CT_PageSz(BaseOxmlElement):
     )
 
 
+class CT_Cols(BaseOxmlElement):
+    """
+    ``<w:cols>`` element, defining page columns.
+    """
+    num = OptionalAttribute('w:num', ST_DecimalNumber)
+
+
 class CT_SectPr(BaseOxmlElement):
     """`w:sectPr` element, the container element for section properties"""
 
@@ -69,6 +77,7 @@ class CT_SectPr(BaseOxmlElement):
     type = ZeroOrOne("w:type", successors=_tag_seq[3:])
     pgSz = ZeroOrOne("w:pgSz", successors=_tag_seq[4:])
     pgMar = ZeroOrOne("w:pgMar", successors=_tag_seq[5:])
+    cols = ZeroOrOne("w:cols", successors=_tag_seq[10:])
     titlePg = ZeroOrOne("w:titlePg", successors=_tag_seq[14:])
     del _tag_seq
 
